@@ -1,16 +1,23 @@
 from aiogram.types import ReplyKeyboardRemove, \
     ReplyKeyboardMarkup, KeyboardButton, \
     InlineKeyboardMarkup, InlineKeyboardButton
-button_hi = KeyboardButton('Привет! 👋')
-hello = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-for kb in [
-    KeyboardButton('Привет! 👋'),
-    KeyboardButton('123'),
-]:
-    hello.add(kb)
 
-markup_request = ReplyKeyboardMarkup(resize_keyboard=True).add(
-    KeyboardButton('Отправить свой контакт ☎️', request_contact=True)
-).add(
-    KeyboardButton('Отправить свою локацию 🗺️', request_location=True)
-)
+lang = InlineKeyboardMarkup()
+
+step = 0
+for i in [
+    ['en', '🇬🇧', 'English'],
+    ['cn', '🇨🇳', 'Chinese'],
+    ['hn', '🇮🇳', 'Hindi'],
+    ['es', '🇪🇸', 'Spanish'],
+    ['eh', '🇪🇭', 'Arabic'],
+    ['bd', '🇧🇩', 'Bengali'],
+    ['fr', '🇫🇷', 'French'],
+    ['ru', '🇷🇺', 'Russian'],
+    ['pt', '🇵🇹', 'Portuguese'],
+]:
+    button = InlineKeyboardButton(f'{i[1]} {i[0]} {i[2]}', callback_data=i[0])
+    if step == 2:
+        lang.add(button)
+    else:
+        lang.insert(button)
