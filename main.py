@@ -2,47 +2,43 @@ from deep_translator import GoogleTranslator
 import keyboards as kb
 from data import *
 
-
+я
 async def r(msg, answers=None, reply_markup=None):
-    lang = users.loc[users['user'] == msg.from_user.username]['language'].iloc[0]
+    language = users.loc[users['user'] == msg.from_user.username]['language'].iloc[0]
     text = ''
     if not answers:
         text = msg.text
     else:
-        if lang in answers.keys():
-            for i in answers[lang]:
-                text += i + '\n\n'
+        if language in answers.keys():
+            for answer in answers[language]:
+                text += answer + '\n\n'
         else:
-            for i in answers['en']:
-                text += GoogleTranslator(source=language, target='ru').translate(i) + '\n\n'
+            for answer in answers['en']:
+                text += GoogleTranslator(source=default_language, target='ru').translate(answer) + '\n\n'
 
-        if lang != 'en' and 'forced' in answers.keys():
+        if language != 'en' and 'forced' in answers.keys():
             text = text[:-2] + f' ({answers["forced"][0]}):'
     await msg.reply(text, reply=False, reply_markup=reply_markup)
 
 
 # This handler will be called when user sends `/start` or `/help` command1
 @dp.message_handler(commands=['start', 'help', 's', 'h'])
-async def process_start_command(message: types.Message):
+async def start_help_command(message: types.Message):
     lngs = pd.read_csv('data/languages.csv')
     # print(lngs)
     await r(message,
             answers={
                 'ru': [
                     'сделаю любого телеграм бота за 1500 рублей - @jolygmanka',
-                    'выберите ваш язык чтобы продолжить',
                     ],
                 'en': [
                     'i will make any telegram bot for $20 - @jolygmanka',
-                    'chose your language to continue'
-                    ],
-                'forced': [
-                    'chose your language to continue',
                     ]},
-            reply_markup=kb.lang
+            reply_markup=kb.info
             )
 
 
+# echo function
 @dp.message_handler()
 async def echo(message: types.Message):
     # old style:
@@ -50,10 +46,25 @@ async def echo(message: types.Message):
     await r(message)
 
 
-@dp.callback_query_handler(lambda callback: callback.data == 'pressed Первая кнопка!')
-async def process_callback_button1(callback_query: types.CallbackQuery):
+@dp.callback_query_handler(lambda callback: callback.data == 'change lang')
+async def callback_change_lang(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(callback_query.from_user.id, 'Нажата первая кнопка!')
+    await bot.send_message(callback_query.from_user.id, 'chose your language:', reply_markup=kb.lang)
+
+
+@dp.callback_query_handler(lambda callback: callback.data in languages)
+async def callback_change_lang(callback_query: types.CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+    language = callback_query.data
+    text = f'Your language is {language}'
+    if language != 'English':
+        text = GoogleTranslator(source=default_language, target=language.lower()).translate(text)
+
+    username = callback_query.from_user.username
+    if username in users['user']:
+        users.loc[users['user'] == username]['language'].iloc[0] = language
+        print(users)
+    await bot.send_message(callback_query.from_user.id, text, reply_markup=kb.help_kb)
 
 
 if __name__ == '__main__':

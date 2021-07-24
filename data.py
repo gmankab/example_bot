@@ -1,4 +1,5 @@
 from aiogram import Bot, Dispatcher, executor, types
+from dataclasses import dataclass
 from config import *
 import pandas as pd
 import logging
@@ -16,4 +17,29 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-language = 'en'
+default_language = 'en'
+
+
+languages_emoji = [
+    ['🇬🇧', 'English'],
+    ['🇨🇳', 'Chinese'],
+    ['🇮🇳', 'Hindi'],
+    ['🇪🇸', 'Spanish'],
+    ['🇪🇭', 'Arabic'],
+    ['🇧🇩', 'Bengali'],
+    ['🇫🇷', 'French'],
+    ['🇷🇺', 'Russian'],
+    ['🇵🇹', 'Portuguese'],
+]
+
+languages = [
+    'English',
+    'Chinese',
+    'Hindi',
+    'Spanish',
+    'Arabic',
+    'Bengali',
+    'French',
+    'Russian',
+    'Portuguese',
+]
