@@ -1,8 +1,9 @@
 from deep_translator import GoogleTranslator
-import keyboards as kb
+from keyboards import *
 from data import *
 
-я
+
+# translate message
 async def r(msg, answers=None, reply_markup=None):
     language = users.loc[users['user'] == msg.from_user.username]['language'].iloc[0]
     text = ''
@@ -24,8 +25,6 @@ async def r(msg, answers=None, reply_markup=None):
 # This handler will be called when user sends `/start` or `/help` command1
 @dp.message_handler(commands=['start', 'help', 's', 'h'])
 async def start_help_command(message: types.Message):
-    lngs = pd.read_csv('data/languages.csv')
-    # print(lngs)
     await r(message,
             answers={
                 'ru': [
@@ -34,7 +33,7 @@ async def start_help_command(message: types.Message):
                 'en': [
                     'i will make any telegram bot for $20 - @jolygmanka',
                     ]},
-            reply_markup=kb.info
+            reply_markup=Kb.info
             )
 
 
@@ -49,7 +48,7 @@ async def echo(message: types.Message):
 @dp.callback_query_handler(lambda callback: callback.data == 'change lang')
 async def callback_change_lang(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(callback_query.from_user.id, 'chose your language:', reply_markup=kb.lang)
+    await bot.send_message(callback_query.from_user.id, 'chose your language:', reply_markup=Kb.lang)
 
 
 @dp.callback_query_handler(lambda callback: callback.data in languages)
@@ -61,10 +60,16 @@ async def callback_change_lang(callback_query: types.CallbackQuery):
         text = GoogleTranslator(source=default_language, target=language.lower()).translate(text)
 
     username = callback_query.from_user.username
-    if username in users['user']:
-        users.loc[users['user'] == username]['language'].iloc[0] = language
-        print(users)
-    await bot.send_message(callback_query.from_user.id, text, reply_markup=kb.help_kb)
+    if username in list(users['user']):
+        index = users.loc[users['user'] == username].index[0]
+        users['language'][index] = language
+        users.to_csv(r'data\users.csv', index=False)
+    await bot.send_message(callback_query.from_user.id, text, reply_markup=Kb.help)
+
+
+@dp.callback_query_handler(lambda callback: callback.data in languages)
+async def callback_change_lang(callback_query: types.CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
 
 
 if __name__ == '__main__':

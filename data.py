@@ -12,7 +12,7 @@ def make_users():
     }).to_csv(r'data\users', index=False)
 
 
-users = pd.read_csv(r'data\users')
+users = pd.read_csv(r'data\users.csv')
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
