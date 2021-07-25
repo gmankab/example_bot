@@ -49,8 +49,8 @@ class Languages:
     @dataclass()
     class Supported:
         dict = {v: k for k, v in GoogleTranslator.get_supported_languages(as_dict=True).items()}
-        abbreviations = GoogleTranslator.get_supported_languages(as_dict=True).values()
-        list = GoogleTranslator.get_supported_languages
+        abbreviations = list(GoogleTranslator.get_supported_languages(as_dict=True).values())
+        list = GoogleTranslator.get_supported_languages()
 
     users = pd.read_csv(r'data\users.csv')
 

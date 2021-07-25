@@ -1,7 +1,16 @@
 from data import *
 
 
-def set_language(language, username):
+def change_language(language, username):
+    if username in Languages.users_list:
+        index = Languages.users.loc[Languages.users['user'] == username].index[0]
+        Languages.users['language'][index] = language
+        Languages.users.to_csv(r'data\users.csv', index=False)
+    else:
+        language_user_set(language, username)
+
+
+def language_user_set(language, username):
     if language in Languages.Supported.abbreviations:
         language = Languages.Supported.dict[language]
     else:
@@ -27,5 +36,4 @@ async def r(msg, answers=None, reply_markup=None):
 
         if language != 'en' and 'forced' in answers.keys():
             text = text[:-2] + f' ({answers["forced"][0]}):'
-        text += 'костя еблан'
     await msg.reply(text, reply=False, reply_markup=reply_markup)

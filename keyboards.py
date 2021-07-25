@@ -1,29 +1,41 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
-from dataclasses import dataclass
-from data import Languages
+from data import *
 
 
 @dataclass()
-class Kb:
-    info = InlineKeyboardMarkup().add(
-        InlineKeyboardButton('@jolygmanka', url='t.me/jolygmanka'),
-        InlineKeyboardButton(f'🌐 change language', callback_data='change lang')
-    )
-
+class Keyboards:
     help = ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton('/help'))
-
-    lang = InlineKeyboardMarkup()
-
-
-def get_kb_lang():
-    step = 0
-    for i in Languages.short_emoji:
-        button = InlineKeyboardButton(f'{i[0]} {i[1]}', callback_data=i[1])
-        if step == 2:
-            Kb.lang.add(button)
-        else:
-            Kb.lang.insert(button)
-    Kb.lang.add(InlineKeyboardButton('🌐 other language', callback_data='other lang'))
+    set_lang = ReplyKeyboardMarkup(resize_keyboard=True).add(
+        KeyboardButton('/help'), KeyboardButton('/lang english'), KeyboardButton('/cancel'))
+    change_lang = None
 
 
-get_kb_lang()
+@dataclass()
+class GetKeyboards:
+    @staticmethod
+    def change_lang():
+        step = 0
+        Keyboards.change_lang = InlineKeyboardMarkup()
+        for i in Languages.short_emoji:
+            button = InlineKeyboardButton(f'{i[0]} {i[1]}', callback_data=i[1])
+            if step == 2:
+                Keyboards.change_lang.add(button)
+            else:
+                Keyboards.change_lang.insert(button)
+        Keyboards.change_lang.add(InlineKeyboardButton('🌐 other language', callback_data='other lang'))
+
+    @staticmethod
+    def info(language):
+        text = 'source code on github'
+        if language != 'english':
+            text = GoogleTranslator(source=Languages.default, target=language).translate(text)
+
+        return InlineKeyboardMarkup().add(
+            InlineKeyboardButton('@jolygmanka', url='t.me/jolygmanka'),
+            InlineKeyboardButton(f'🌐 change language', callback_data='change lang')
+        ).add(
+            InlineKeyboardButton(text, url='https://github.com/gmankab/test_bot')
+        )
+
+
+GetKeyboards.change_lang()
