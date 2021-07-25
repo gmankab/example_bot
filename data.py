@@ -54,5 +54,4 @@ class Languages:
 
     users = pd.read_csv(r'data\users.csv')
 
-
-users_list = list(Languages.users['user'])
+    users_list = list(users['user'])

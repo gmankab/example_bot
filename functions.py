@@ -8,6 +8,7 @@ def set_language(language, username):
         language = 'english'
     Languages.users = Languages.users.append({'user': username, 'language': language}, ignore_index=True)
     Languages.users.to_csv(r'data\users.csv', index=False)
+    Languages.users_list = list(Languages.users['user'])
 
 
 # translate message
