@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from dataclasses import dataclass
-from data import languages_emoji
+from data import Languages
 
 
 @dataclass()
@@ -17,13 +17,13 @@ class Kb:
 
 def get_kb_lang():
     step = 0
-    for i in languages_emoji:
+    for i in Languages.short_emoji:
         button = InlineKeyboardButton(f'{i[0]} {i[1]}', callback_data=i[1])
         if step == 2:
             Kb.lang.add(button)
         else:
             Kb.lang.insert(button)
-    Kb.lang.add(InlineKeyboardButton('🌐 other language', callback_data='other language'))
+    Kb.lang.add(InlineKeyboardButton('🌐 other language', callback_data='other lang'))
 
 
 get_kb_lang()
