@@ -23,27 +23,27 @@ class Languages:
     default = 'english'
 
     short_emoji = [
-        ['🇬🇧', 'English'],
-        ['🇨🇳', 'Chinese'],
-        ['🇮🇳', 'Hindi'],
-        ['🇪🇸', 'Spanish'],
-        ['🇪🇭', 'Arabic'],
-        ['🇧🇩', 'Bengali'],
-        ['🇫🇷', 'French'],
-        ['🇷🇺', 'Russian'],
-        ['🇵🇹', 'Portuguese'],
+        ['🇬🇧', 'english'],
+        ['🇨🇳', 'chinese'],
+        ['🇮🇳', 'hindi'],
+        ['🇪🇸', 'spanish'],
+        ['🇪🇭', 'arabic'],
+        ['🇧🇩', 'bengali'],
+        ['🇫🇷', 'french'],
+        ['🇷🇺', 'russian'],
+        ['🇵🇹', 'portuguese'],
     ]
 
     short = [
-        'English',
-        'Chinese',
-        'Hindi',
-        'Spanish',
-        'Arabic',
-        'Bengali',
-        'French',
-        'Russian',
-        'Portuguese',
+        'english',
+        'chinese',
+        'hindi',
+        'spanish',
+        'arabic',
+        'bengali',
+        'french',
+        'russian',
+        'portuguese',
     ]
 
     @dataclass()
@@ -55,3 +55,7 @@ class Languages:
     users = pd.read_csv(r'data\users.csv')
 
     users_list = list(users['user'])
+
+    @staticmethod
+    def get(username):
+        return Languages.users.loc[Languages.users['user'] == username]['language'].iloc[0]
