@@ -6,20 +6,13 @@ import pandas as pd
 import logging
 
 
-def make_users():
-    pd.DataFrame({
-        'users': ['jolygmanka', 'jolygmank'],
-        'languages': ['ru', 'en']
-    }).to_csv(r'data\users', index=False)
-
-
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
 
 @dataclass()
-class Languages:
+class Langs:
     default = 'english'
 
     short_emoji = [
@@ -46,16 +39,19 @@ class Languages:
         'portuguese',
     ]
 
-    @dataclass()
-    class Supported:
-        dict = {val: key for key, val in GoogleTranslator.get_supported_languages(as_dict=True).items()}
-        abbreviations = list(GoogleTranslator.get_supported_languages(as_dict=True).values())
-        list = GoogleTranslator.get_supported_languages()
+    dict = {val: key for key, val in GoogleTranslator.get_supported_languages(as_dict=True).items()}
+    index = {}
 
-    users = pd.read_csv(r'data\users.csv')
+    abbreviations = list(GoogleTranslator.get_supported_languages(as_dict=True).values())
+    list = GoogleTranslator.get_supported_languages()
+    translations = pd.read_csv(r'data\translations.csv')
 
-    users_list = list(users['user'])
 
-    @staticmethod
-    def get(username):
-        return Languages.users.loc[Languages.users['user'] == username]['language'].iloc[0]
+@dataclass()
+class Users:
+    df = pd.read_csv(r'data\users.csv')
+    list = list(df['user'])
+    langs = {}
+
+    for i in df.index:
+        langs[df['user'][i]] = df['language'][i]

@@ -16,7 +16,7 @@ class GetKeyboards:
     def change_lang():
         step = 0
         Keyboards.change_lang = InlineKeyboardMarkup()
-        for i in Languages.short_emoji:
+        for i in Langs.short_emoji:
             button = InlineKeyboardButton(f'{i[0]} {i[1]}', callback_data=i[1])
             if step == 2:
                 Keyboards.change_lang.add(button)
@@ -28,7 +28,7 @@ class GetKeyboards:
     def info(language):
         text = 'source code on github'
         if language != 'english':
-            text = GoogleTranslator(source=Languages.default, target=language).translate(text)
+            text = GoogleTranslator(source=Langs.default, target=language).translate(text)
 
         return InlineKeyboardMarkup().add(
             InlineKeyboardButton('@jolygmanka', url='t.me/jolygmanka'),

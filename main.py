@@ -7,9 +7,9 @@ from functions import *
 @dp.message_handler(commands=['start', 'help', 's', 'h'])
 async def start_help_command(message: types.Message):
     username = message.from_user.username
-    if username not in Languages.users_list:
+    if username not in Users.list:
         language_user_set(message.from_user.language_code, username)
-    language = Languages.get(username)
+    language = Users.langs[username]
 
     text = t('get this message', language)
     await message.reply('/help - ' + text, reply=False, reply_markup=Keyboards.help)
@@ -28,7 +28,7 @@ async def callback_change_lang(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
 
 
-@dp.callback_query_handler(lambda callback: callback.data in Languages.short)
+@dp.callback_query_handler(lambda callback: callback.data in Langs.short)
 async def callback_change_lang(callback_query: types.CallbackQuery):
     language = callback_query.data
     await bot.send_message(callback_query.from_user.id, t(f'Your language is {language}', language),
@@ -52,9 +52,9 @@ async def callback_change_lang(callback_query: types.CallbackQuery):
 @dp.message_handler(commands=['lang', 'l', 'language'])
 async def start_help_command(message: types.Message):
     language = message.text.split()[-1]
-    if language in Languages.Supported.abbreviations:
-        language = Languages.Supported.dict[language]
-    if language in Languages.Supported.list:
+    if language in Langs.abbreviations:
+        language = Langs.dict[language]
+    if language in Langs.list:
         change_language(language, message.from_user.username)
         await message.reply(t(f'Your language is {language}', language), reply=False, reply_markup=Keyboards.help)
     else:
@@ -69,8 +69,8 @@ async def echo(message: types.Message):
 
 @dp.message_handler(commands=['c', 'can', 'canc', 'cancel'])
 async def echo(message: types.Message):
-    await message.reply(t('action canceled', Languages.get(message.from_user.username)),
-                        reply=False, reply_markup=Keyboards.help)
+    await message.reply(t('action canceled',
+                          Users.langs[message.from_user.username]), reply=False, reply_markup=Keyboards.help)
 
 
 if __name__ == '__main__':
