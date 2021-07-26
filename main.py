@@ -8,16 +8,17 @@ from functions import *
 async def start_help_command(message: types.Message):
     username = message.from_user.username
     if username not in Users.list:
-        language_user_set(message.from_user.language_code, username)
-    language = Users.langs[username]
-
+        language = message.from_user.language_code
+        if language in Langs.abbreviations:
+            language = Langs.dict[language]
+        else:
+            language = 'english'
+        set_language(username, language)
+    else:
+        language = Users.langs[username][0]
     text = t('get this message', language)
     await message.reply('/help - ' + text, reply=False, reply_markup=Keyboards.help)
-
-    if language == 'russian':
-        text = 'сделаю любого телеграм бота за 1500 рублей - @jolygmanka'
-    else:
-        text = t('i will make any telegram bot for $20 - @jolygmanka', language)
+    text = t('i will make any telegram bot for $20 - @jolygmanka', language)
     await message.reply(text, reply=False, reply_markup=GetKeyboards.info(language))
 
 
@@ -31,10 +32,10 @@ async def callback_change_lang(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(lambda callback: callback.data in Langs.short)
 async def callback_change_lang(callback_query: types.CallbackQuery):
     language = callback_query.data
-    await bot.send_message(callback_query.from_user.id, t(f'Your language is {language}', language),
+    await bot.send_message(callback_query.from_user.id, t('Your language is', language),
                            reply_markup=Keyboards.help)
     await bot.answer_callback_query(callback_query.id)
-    change_language(language, callback_query.from_user.username)
+    set_language(callback_query.from_user.username, language)
 
 
 @dp.callback_query_handler(lambda callback: callback.data == 'other lang')
@@ -55,8 +56,8 @@ async def start_help_command(message: types.Message):
     if language in Langs.abbreviations:
         language = Langs.dict[language]
     if language in Langs.list:
-        change_language(language, message.from_user.username)
-        await message.reply(t(f'Your language is {language}', language), reply=False, reply_markup=Keyboards.help)
+        set_language(message.from_user.username, language)
+        await message.reply(t('Your language is', language), reply=False, reply_markup=Keyboards.help)
     else:
         await message.reply("google translate isn't support this language", reply=False, reply_markup=Keyboards.help)
 

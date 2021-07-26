@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from config import TOKEN
 import pandas as pd
 import logging
+import json
 
 
 logging.basicConfig(level=logging.INFO)
@@ -49,9 +50,18 @@ class Langs:
 
 @dataclass()
 class Users:
-    df = pd.read_csv(r'data\users.csv')
-    list = list(df['user'])
-    langs = {}
+    langs = pd.read_csv(r'data\users.csv')
+    list = list(langs.columns)
 
-    for i in df.index:
-        langs[df['user'][i]] = df['language'][i]
+
+@dataclass()
+class Get:
+    @staticmethod
+    def language_indexes():
+        lang_index = 0
+        for i in GoogleTranslator.get_supported_languages():
+            Langs.index[i] = lang_index
+            lang_index += 1
+
+
+Get.language_indexes()
