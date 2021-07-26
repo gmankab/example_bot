@@ -48,7 +48,7 @@ class Languages:
 
     @dataclass()
     class Supported:
-        dict = {v: k for k, v in GoogleTranslator.get_supported_languages(as_dict=True).items()}
+        dict = {val: key for key, val in GoogleTranslator.get_supported_languages(as_dict=True).items()}
         abbreviations = list(GoogleTranslator.get_supported_languages(as_dict=True).values())
         list = GoogleTranslator.get_supported_languages()
 
