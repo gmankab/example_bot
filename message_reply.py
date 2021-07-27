@@ -1,3 +1,4 @@
+from aiogram import types
 from keyboards import *
 from data import *
 

@@ -1,15 +1,10 @@
-from aiogram import types
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram import executor
+from install_dependencies import *
 from deep_translator import GoogleTranslator
 from aiogram import Bot, Dispatcher
 from dataclasses import dataclass
 from config import TOKEN
 import pandas as pd
 import logging
-
-imported = []
-
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
@@ -69,3 +64,4 @@ class Get:
 
 
 Get.language_indexes()
+fuck_pycharm_import_warning_install_dependencies()

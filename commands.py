@@ -1,3 +1,4 @@
+from aiogram import types
 from keyboards import *
 from functions import *
 from data import *
@@ -38,3 +39,7 @@ async def start_help_command(message: types.Message):
 async def cancel(message: types.Message):
     await message.reply(t('action canceled',
                           Users.langs[message.from_user.username]), reply=False, reply_markup=Keyboards.help)
+
+
+def fuck_pycharm_import_warning_commands():
+    pass
