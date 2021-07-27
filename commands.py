@@ -41,5 +41,16 @@ async def cancel(message: types.Message):
                           Users.langs[message.from_user.username]), reply=False, reply_markup=Keyboards.help)
 
 
+@dp.message_handler(commands=['t', 'trans', 'translate'])
+async def cancel(message: types.Message):
+    try:
+        splitted = message.text.split()
+        text = message.text.split(splitted[2], 1)[1]
+        text = GoogleTranslator(source=splitted[1], target=splitted[2]).translate(text)
+        await message.reply(text, reply=False, reply_markup=Keyboards.help)
+    except exceptions_translate:
+        await message.reply(t('error translating', Users.langs[message.from_user.username][0]), reply=False)
+
+
 def fuck_pycharm_import_warning_commands():
     pass

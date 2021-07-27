@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from config import TOKEN
 import pandas as pd
 import logging
+from deep_translator import exceptions
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
@@ -65,3 +66,17 @@ class Get:
 
 Get.language_indexes()
 fuck_pycharm_import_warning_install_dependencies()
+
+exceptions_translate = (exceptions.AuthorizationException,
+                        exceptions.BaseError,
+                        exceptions.ElementNotFoundInGetRequest,
+                        exceptions.InvalidSourceOrTargetLanguage,
+                        exceptions.LanguageNotSupportedException,
+                        exceptions.MicrosoftAPIerror,
+                        exceptions.NotValidLength,
+                        exceptions.NotValidPayload,
+                        exceptions.RequestError,
+                        exceptions.ServerException,
+                        exceptions.TooManyRequests,
+                        exceptions.TranslationNotFound,
+                        IndexError)
