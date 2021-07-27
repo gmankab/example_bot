@@ -36,4 +36,3 @@ def translate_to_all(text, add_lang_in_end=False):
     print(f'\r{"#" * progress}{"-" * (107 - progress)} {"106/106 done"}')
     Langs.translations = pd.concat([Langs.translations, df], axis=1)
     Langs.translations.to_csv(r'data\translations.csv', index=False)
-
