@@ -1,10 +1,14 @@
+from aiogram import types
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram import executor
 from deep_translator import GoogleTranslator
 from aiogram import Bot, Dispatcher
 from dataclasses import dataclass
 from config import TOKEN
 import pandas as pd
 import logging
-import json
+
+imported = []
 
 
 logging.basicConfig(level=logging.INFO)

@@ -3,12 +3,10 @@ from data import *
 
 # translate
 def t(text, language):
-    if text in list(Langs.translations.columns):
-        return Langs.translations[text][Langs.index[language]]
-    else:
+    if text not in list(Langs.translations.columns):
         print(f'error: can\'t find "{text}" in translations df')
         translate_to_all(text)
-        return text + ' (translate error)'
+    return Langs.translations[text][Langs.index[language]]
 
 
 def set_language(username, language):
@@ -36,5 +34,6 @@ def translate_to_all(text, add_lang_in_end=False):
         progress += 1
 
     print(f'\r{"#" * progress}{"-" * (107 - progress)} {"106/106 done"}')
-    translations = pd.concat([Langs.translations, df], axis=1)
-    translations.to_csv(r'data\translations.csv', index=False)
+    Langs.translations = pd.concat([Langs.translations, df], axis=1)
+    Langs.translations.to_csv(r'data\translations.csv', index=False)
+

@@ -1,4 +1,4 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+from functions import *
 from data import *
 
 
@@ -26,15 +26,25 @@ class GetKeyboards:
 
     @staticmethod
     def info(language):
-        text = 'source code on github'
-        if language != 'english':
-            text = GoogleTranslator(source=Langs.default, target=language).translate(text)
-
         return InlineKeyboardMarkup().add(
             InlineKeyboardButton('@jolygmanka', url='t.me/jolygmanka'),
-            InlineKeyboardButton(f'🌐 change language', callback_data='change lang')
+            InlineKeyboardButton(f'🌐 change language', callback_data='change lang'),
         ).add(
-            InlineKeyboardButton(text, url='https://github.com/gmankab/test_bot')
+            InlineKeyboardButton(t('source code on github', language), url='https://github.com/gmankab/test_bot'),
+            InlineKeyboardButton(t('what this bot can?', language), callback_data=f'advanced'),
+        )
+
+    @staticmethod
+    def advanced_info(language):
+        return InlineKeyboardMarkup().add(
+            InlineKeyboardButton('@jolygmanka', url='t.me/jolygmanka'),
+            InlineKeyboardButton(f'🌐 change language', callback_data='change lang'),
+        ).add(
+            InlineKeyboardButton(t('source code on github', language), url='https://github.com/gmankab/test_bot'),
+            InlineKeyboardButton(t('hide advanced menu', language), callback_data='hide advanced'),
+        ).add(
+            InlineKeyboardButton(t('flip a coin', language), callback_data='flip a coin'),
+            InlineKeyboardButton(t('translate something', language), callback_data='translate'),
         )
 
 
