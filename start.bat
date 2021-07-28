@@ -1,3 +1,3 @@
 @echo off
-"python\python.exe" "main.py"
+"python\App\Python\python.exe" "main.py"
 pause

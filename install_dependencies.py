@@ -1,6 +1,6 @@
 def install_dependencies():
     from sys import executable
-    from subprocess import check_call, DEVNULL
+    from subprocess import check_call
     from pkg_resources import working_set
 
     required = {'deep_translator', 'pandas', 'aiogram'}
@@ -8,8 +8,7 @@ def install_dependencies():
     missing = required - installed
 
     if missing:
-        python = executable
-        check_call([python, '-m', 'pip', 'install', *missing], stdout=DEVNULL)
+        check_call([executable, "-m", "pip", "install", *missing])
 
 
 install_dependencies()
