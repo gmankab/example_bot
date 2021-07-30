@@ -31,7 +31,7 @@ class GetKeyboards:
             InlineKeyboardButton('@jolygmanka', url='t.me/jolygmanka'),
             InlineKeyboardButton(f'🌐 change language', callback_data='change lang'),
         ).add(
-            InlineKeyboardButton(t('source code on github', language), url='https://github.com/gmankab/test_bot'),
+            InlineKeyboardButton(t('source code on github', language), url='https://github.com/gmankab/example_bot'),
             InlineKeyboardButton(t('what this bot can?', language), callback_data=f'advanced'),
         )
 
