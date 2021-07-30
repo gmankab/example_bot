@@ -1,6 +1,7 @@
 from install_dependencies import *
 from deep_translator import GoogleTranslator
 from aiogram import Bot, Dispatcher
+from aiogram.types import ParseMode
 from dataclasses import dataclass
 from config import TOKEN
 import pandas as pd
@@ -8,7 +9,7 @@ import logging
 from deep_translator import exceptions
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token=TOKEN)
+bot = Bot(token=TOKEN, parse_mode=ParseMode.MARKDOWN)
 dp = Dispatcher(bot)
 
 
@@ -45,12 +46,12 @@ class Langs:
 
     abbreviations = list(GoogleTranslator.get_supported_languages(as_dict=True).values())
     list = GoogleTranslator.get_supported_languages()
-    translations = pd.read_csv(r'data\translations.csv')
+    translations = pd.read_csv(r'translations.csv')
 
 
 @dataclass()
 class Users:
-    langs = pd.read_csv(r'data\users.csv')
+    langs = pd.read_csv(r'users.csv')
     list = list(langs.columns)
 
 

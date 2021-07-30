@@ -11,7 +11,7 @@ def t(text, language):
 
 def set_language(username, language):
     Users.langs[username] = language
-    Users.langs.to_csv(r'data\users.csv', index=False)
+    Users.langs.to_csv(r'users.csv', index=False)
     Users.list = list(Users.langs.columns)
 
 
@@ -35,4 +35,4 @@ def translate_to_all(text, add_lang_in_end=False):
 
     print(f'\r{"#" * progress}{"-" * (107 - progress)} {"106/106 done"}')
     Langs.translations = pd.concat([Langs.translations, df], axis=1)
-    Langs.translations.to_csv(r'data\translations.csv', index=False)
+    Langs.translations.to_csv(r'translations.csv', index=False)
