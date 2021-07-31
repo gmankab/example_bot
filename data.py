@@ -9,7 +9,7 @@ import logging
 from deep_translator import exceptions
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token=TOKEN, parse_mode=ParseMode.MARKDOWN_V2)
+bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
 

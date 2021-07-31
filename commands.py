@@ -19,7 +19,7 @@ async def start_help_command(message: types.Message):
 
     text = t('get this message', language)
     await message.reply('/help - ' + text, reply=False, reply_markup=Keyboards.help)
-    text = t('i will make any telegram bot for $20 - @jolygmanka', language)
+    text = t('i will make any telegram bot - @jolygmanka', language)
     await message.reply(text, reply=False, reply_markup=GetKeyboards.info(language))
 
 
